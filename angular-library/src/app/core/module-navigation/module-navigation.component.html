@@ -1,0 +1,19 @@
+<div class="w-28 bg-primary-500 h-full pl-2.5 pt-8">
+  <a
+    *ngFor="let cdmSubModuleRoute of navigationItems$ | async"
+    [routerLink]="[cdmSubModuleRoute?.route]"
+    [relativeTo]="activatedRoute.parent"
+    routerLinkActive="!text-primary-contrast-300 !bg-neutral-500 hover:!text-primary-contrast-300 hover:!bg-neutral-500"
+    class="bg-tertiary-500 text-tertiary-100 h-16 p-2 mb-2.5 flex items-center cursor-pointer shadow-md hover:bg-tertiary-300 hover:text-primary-contrast-900 relative"
+  >
+    <p class="text-xs text-left mb-0 select-none">
+      {{ cdmSubModuleRoute.name }}
+    </p>
+    <mat-icon
+      *ngIf="cdmSubModuleRoute.readonly"
+      svgIcon="lock"
+      class="readonly-icon absolute top-1 right-0"
+      matTooltip="You can not modify data in this area"
+    ></mat-icon>
+  </a>
+</div>

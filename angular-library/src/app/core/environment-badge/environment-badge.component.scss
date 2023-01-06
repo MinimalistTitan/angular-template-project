@@ -1,0 +1,13 @@
+:host {
+    .content {
+        &.dev {
+            background-color: var(--cdm-green);
+        }
+        &.test {
+            background-color: var(--warn-900); 
+        }
+        .production {
+            display: none; 
+        }
+    }
+}

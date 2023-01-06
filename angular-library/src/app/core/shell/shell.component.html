@@ -1,0 +1,10 @@
+<app-header></app-header>
+<section>
+    <app-module-navigation
+    *ngIf="!hideLeftMenuBar"
+    [activatedRoute]="moduleActiveRoute"
+    [cdmSubModuleRoutes]="subNavigationList"
+  >
+  </app-module-navigation>
+  <router-outlet></router-outlet>
+</section>

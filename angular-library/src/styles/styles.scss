@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use "./themes/variables";
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+@use "./themes/palette" as palette;
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
