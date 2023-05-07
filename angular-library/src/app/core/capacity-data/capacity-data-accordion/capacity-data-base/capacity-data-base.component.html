@@ -1,0 +1,73 @@
+<div class="h-full" [cdmBusy]="accordionLoading$ | async">
+    <div
+      class="cdm-scrollbar overflow-x-auto bg-white"
+      [style.height]="'calc(100% - 42px)'"
+      [attr.cdm-page-name]="capacityDataPage[accordion.pageName]"
+    >
+      <cdm-area-help
+        [hierarchyType]="hierarchyType"
+        [activeElement]="!!accordion?.activeTabName ? accordion?.activeTabName : TabEnumKey"
+        class="absolute top-0.5"
+      >
+      </cdm-area-help>
+      <div *ngIf="invisible" class="flex grow items-center justify-center h-full">
+        <ng-container
+          *ngIf="!!invisibleContent; else invisibleReasonTpl"
+          [ngTemplateOutlet]="invisibleContent"
+        >
+        </ng-container>
+        <ng-template #invisibleReasonTpl>
+          <div
+            *ngIf="!!invisibleReason"
+            class="p-4 bg-tertiary-A200 text-tertiary-400 flex items-center"
+          >
+            <mat-icon svgIcon="info-circle" class="!h-4 !w-4"></mat-icon>
+            <span class="pl-4">{{ invisibleReason }}</span>
+          </div>
+        </ng-template>
+      </div>
+      <ng-container *ngIf="!invisible">
+        <ng-content></ng-content>
+      </ng-container>
+    </div>
+  
+    <div
+      *ngIf="!invisible"
+      class="accordion-item__toolbar transition-cdm-width duration-1000"
+    >
+      <cdm-product-detail-toolbar
+        (onSaveWithComment)="onSaveWithComment($event)"
+        (onSave)="onSave()"
+        (onDelete)="onDeleteWithComment($event)"
+        (refreshPreviewList)="refreshPreviewList()"
+        (isPreviewModeChange)="
+          accordionService.changePreviewMode($event, isSingleObject)
+        "
+        [isPreviewMode]="accordionService.isPreviewModeEnabled"
+        [isPreviewDisabled]="isPreviewDisabled"
+        [isSaveDisabled]="isSaveDisabled"
+        [isDeleteDisabled]="isDeleteDisabled"
+        [isCurrentHierarchyLevelDefault]="isCurrentHierarchyLevelDefault"
+        [isSavePermittedForHierarchyType]="isSavePermittedForHierarchyType"
+        [canShowValidationTooltip]="canShowValidationTooltip"
+        [canShowEditingDisabledTooltip]="canShowEditingDisabledTooltip"
+        [canShowInheritanceIcon]="canShowInheritanceIcon"
+        [inheritancePopoverContent]="inheritancePopoverContent"
+        [isDirty]="isDirty"
+        [isPreviewVisible]="isPreviewVisible"
+        [isOverrideDefaultButton]="isOverrideDefaultButton"
+        [canShowHierarchyLevelDefault]="canShowHierarchyLevelDefault"
+        [validationTooltipContent]="validationTooltipContent"
+        [isReleased]="isReleased"
+        [leftContentTemplate]="leftContentTemplate"
+        [shouldShowDelete]="shouldShowDelete"
+        [(willSubmitOverrideExceptions)]="willSubmitOverrideExceptions"
+      >
+        <ng-container
+          *ngIf="!!toolbarTpl"
+          [ngTemplateOutlet]="toolbarTpl"
+        ></ng-container>
+      </cdm-product-detail-toolbar>
+    </div>
+  </div>
+  

@@ -1,0 +1,25 @@
+<div class="relative" [class.arrow-hidden]="disableArrow">
+  <div
+    [className]="
+      disableArrow ? '' : 'arrow' + ' ' + 'py-0 popover-' + placement
+    "
+  ></div>
+  <div class="flex border border-solid border-neutral bg-white">
+    <div class="popover-inner">
+      <h3
+        *ngIf="title"
+        class="text-sm font-medium bg-neutral-200 m-0 py-[8px] px-[14px] rounded-none border-b-[1px] border-solid border-b-neutral"
+      >
+        {{ title }}
+      </h3>
+      <div
+        [className]="
+          'popover-content py-[9px] px-[14px] max-h-[500px] overflow-y-auto ' +
+          customizeClass
+        "
+      >
+        <ng-container *ngTemplateOutlet="contentTemplate"> </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="w-full px-3">
+    <mat-form-field class="w-full cdm-search-box" appearance="outline">
+      <input
+        matInput
+        class="mat-select-search-input mat-select-search-hidden hidden"
+      />
+      <mat-icon matPrefix>search</mat-icon>
+      <input
+        class="mat-select-search-input"
+        autocomplete="on"
+        matInput
+        [type]="type"
+        [formControl]="_formControl"
+        #searchSelectInput
+        (keydown)="_handleKeydown($event)"
+        (keyup)="_handleKeyup($event)"
+        (blur)="onBlur()"
+        [placeholder]="placeholderLabel"
+        [attr.aria-label]="ariaLabel"
+      />
+      <button
+        class="test"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="_reset(true)"
+      >
+        <mat-icon
+          fontIcon="backspace"
+          class="text-primary-contrast-300 text-sm"
+        ></mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  

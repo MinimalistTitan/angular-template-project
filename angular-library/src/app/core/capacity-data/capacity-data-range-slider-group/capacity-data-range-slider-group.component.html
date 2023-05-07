@@ -1,0 +1,89 @@
+<div class="flex flex-col h-full">
+    <div class="p-1.5 mb-1.5 bg-gray-100 text-sm text-primary-500 text-center border-b">
+      {{ groupName }}
+    </div>
+  
+    <div class="flex-1 flex justify-center items-center px-2">
+      <div class="grid grid-cols-12 justify-self-center">
+        <div
+          class="col-start-2 px-[3px] text-sm mb-2 text-primary-500 flex justify-between"
+          [ngClass]="sliderColClasses"
+        >
+        <div
+            *ngFor="let item of sliderConfigs"
+            [matTooltip]="item.name"
+            [ngClass]="item.iconClassName"
+            class="hover:cursor-help"
+            [matTooltipDisabled]="!item.iconClassName"
+          ></div>
+        </div>
+  
+        <ng-container *ngFor="let item of formControls; let i = index">
+          <div class="col-start-1 flex items-baseline">
+            <p class="text-sm font-bold leading-8">
+              {{ item?.controls["materialPath"]?.value?.pathString }}
+            </p>
+          </div>
+          <div
+            class="col-start-2 leading-8"
+            [ngClass]="sliderColClasses"
+            *ngIf="shouldShowSliderControl"
+          >
+            <div>
+              <cdm-slider-range
+                [disabled]="
+                  item?.controls[descriptorControlName]?.value?.status ===
+                  capacityDataStatusEnum.ReadOnly
+                "
+                [sliderControl]="item?.controls[sliderControlName]"
+                [stepConfigs]="sliderStepConfigs"
+                (valueChanged)="sliderValueChanged({item, sliderControlName: sliderControlName, data:$event})"
+              ></cdm-slider-range>
+            </div>
+          </div>
+          <div
+            class="col-start-auto col-span-5 px-2 flex items-baseline"
+            *ngIf="shouldShowSliderLabel"
+          >
+            <p
+              class="text-gray-400 truncate w-[7rem] mb-0 leading-8"
+              title="{{ sliderLabels[i].title }}"
+            >
+              {{ sliderLabels[i].label }}
+            </p>
+          </div>
+          <div
+            class="col-start-auto col-span-1 flex items-baseline"
+            *ngIf="shouldShowPopoverButtons"
+          >
+            <cdm-typed-popover
+              class="custom-popover-button"
+              type="Error"
+              title="Validation"
+             
+              *ngIf="
+                item.controls[mainControlName].invalid
+              "
+            ></cdm-typed-popover>
+            <cdm-typed-popover
+              class="custom-popover-button"
+              type="Warning"
+              title="Record is disabled"
+              *ngIf="
+                item?.controls[descriptorControlName]?.value?.status ===
+                capacityDataStatusEnum.ReadOnly
+              "
+            ></cdm-typed-popover>
+            <cdm-inheritance-popover
+              class="custom-popover-button"
+              type="Error"
+              title="Inherited value"
+              [content]="item?.controls[descriptorControlName]?.value"
+              *ngIf="item?.controls[descriptorControlName]?.value?.isInherited"
+            ></cdm-inheritance-popover>
+          </div>
+        </ng-container>
+      </div>
+    </div>    
+  </div>
+  

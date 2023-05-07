@@ -1,0 +1,23 @@
+<div class="flex justify-center items-center w-full h-full cursor-help">
+  <button
+    mat-button
+    class="!min-w-[30px] !p-0"
+    tabindex="-1"
+    cdmPopover
+    [contentTemplate]="originTemplate"
+    [title]="title"
+    [placement]="placement"
+    [disableInteractivity]="true"
+  >
+    <mat-icon
+      svgIcon="info-circle"
+      class="text-sm !h-[15px] !w-[15px]"
+    ></mat-icon>
+  </button>
+</div>
+
+<ng-template #originTemplate>
+  <div *ngIf="content">
+    <cdm-origin [content]="content"></cdm-origin>
+  </div>
+</ng-template>

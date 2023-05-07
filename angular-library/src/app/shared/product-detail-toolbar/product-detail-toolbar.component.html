@@ -1,0 +1,200 @@
+<div
+  class="m-0 p-[5px] border-solid border-2 border-l-[3px] border-r-[3px] flex justify-between product-detail-toolbar__container gap-2"
+  [ngClass]="{
+    'border-cdm-yellow-500 bg-accent-contrast-A150': shouldShowWarningIndicator
+  }"
+>
+  <div class="flex items-center">
+    <ng-container *ngTemplateOutlet="leftContentTemplate"> </ng-container>
+  </div>
+  <div class="flex">
+    <cdm-inheritance-popover
+      [content]="inheritancePopoverContent"
+      *ngIf="canShowInheritanceIcon"
+    >
+    </cdm-inheritance-popover>
+    <cdm-typed-popover
+      type="Error"
+      title="Restrictions applied"
+      icon="lock"
+      class="!w-7"
+      content="You have no privilege to save any modifications"
+      [disableInteractivity]="true"
+      *ngIf="!isSavePermittedForHierarchyType"
+    >
+    </cdm-typed-popover>
+
+    <cdm-typed-popover
+      type="Error"
+      title="Validation"
+      class="!w-7"
+      [content]="
+        validationTooltipContent
+          ? validationTooltipContent
+          : 'Capacity data input is missing or incorrect, please fix input or reset form'
+      "
+      [disableInteractivity]="true"
+      *ngIf="canShowValidationTooltip"
+    >
+    </cdm-typed-popover>
+
+    <cdm-typed-popover
+      type="Warning"
+      title="Record is disabled"
+      [content]="
+        editingDisabledTooltipContent
+          ? editingDisabledTooltipContent
+          : 'This material has Ranking set to `No cutting data`, therefore editing has been disabled.'
+      "
+      [disableInteractivity]="true"
+      *ngIf="canShowEditingDisabledTooltip"
+      class="!w-7"
+    >
+    </cdm-typed-popover>
+
+    <cdm-typed-popover
+      type="Warning"
+      title="Non-default hierarchy level"
+      content="This hierarchy level is not default one for this type of capacity data. Comment will be mandatory during save operation."
+      icon="exclamation-triangle"
+      [disableInteractivity]="true"
+      *ngIf="shouldShowWarningIndicator"
+      class="!w-7"
+    >
+    </cdm-typed-popover>
+    <cdm-typed-popover
+      type="Info"
+      title="Product released"
+      icon="book"
+      content="This product is marked as Released. Additional modifications have been disabled."
+      [disableInteractivity]="true"
+      *ngIf="isReleased"
+      class="!w-7"
+    >
+    </cdm-typed-popover>
+
+    <ng-content></ng-content>
+    <ng-container *ngIf="!isOverrideDefaultButton">
+      <div
+        class="dropdown-wrapper ng-isolate-scope mr-1 h-7"
+        [class.hidden]="!isPreviewVisible"
+      >
+        <div class="group">
+          <div
+            class="inline-flex shadow-sm h-7"
+            role="group"
+            cdmPopover
+            [contentTemplate]="helpPreviewPopover"
+            placement="bottom"
+            [disableInteractivity]="false"
+            [disableArrow]="true"
+          >
+            <button
+              type="button"
+              [disabled]="!isPreviewMode || isPreviewDisabled"
+              (click)="refreshPreviewList.emit()"
+              class="cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 inline-flex items-center text-sm font-medium text-gray-900 bg-accent-500"
+              [ngClass]="{ '!bg-accent-A700': isPreviewMode }"
+            >
+              <mat-icon
+                class="btn-caret !h-5 leading-[1] !fill-white text-white text-xl"
+                >cached</mat-icon
+              >
+            </button>
+            <button
+              type="button"
+              (click)="previewChange()"
+              [disabled]="isPreviewDisabled"
+              class="inline-flex items-center py-2 px-4 text-xs font-medium bg-accent-500 text-white border-r-[1px] border-l-[1px] border-accent-800 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70"
+              [ngClass]="{ '!bg-accent-A700': isPreviewMode }"
+            >
+              Preview {{ isPreviewMode ? "off" : "on" }}
+            </button>
+            <button
+              type="button"
+              class="cursor-pointer inline-flex items-center font-medium bg-accent-500"
+            >
+              <mat-icon
+                class="btn-caret !h-[18px] !fill-white"
+                svgIcon="caret-down"
+              ></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mr-1">
+        <div class="inline-flex shadow-sm h-7">
+          <button
+            type="button"
+            [disabled]="isSaveDisabled || !isCurrentHierarchyLevelDefault"
+            class="leading-[1] text-white cursor-pointer text-xs inline-flex items-center py-2 px-4 font-medium bg-primary-500 border-r-[1px] border-primary-800 hover:bg-primary-900 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:!bg-primary-500"
+            (click)="save()"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            cdmPopover
+            [contentTemplate]="helpSavePopover"
+            placement="bottom"
+            [disableInteractivity]="false"
+            [disableArrow]="true"
+            class="btn-save-caret text-gray-900 bg-primary-500 border-gray-200 hover:bg-primary-900 cursor-pointer"
+          >
+            <mat-icon
+              class="btn-caret !h-[18px] mt-[5px] !fill-white"
+              svgIcon="caret-down"
+            ></mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="mr-1" *ngIf="shouldShowDelete">
+        <button
+          (click)="delete()"
+          [disabled]="isDeleteDisabled"
+          class="h-7 leading-[1] bg-warn-400 text-white pt-[0.3rem] pb-[0.3rem] px-4 text-xs cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 hover:bg-warn-600 disabled:hover:!bg-warn-400"
+        >
+          Delete
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #helpPreviewPopover>
+  <label class="flex">
+    <input
+      type="checkbox"
+      [checked]="willSubmitOverrideExceptions"
+      (change)="willSubmitOverrideExceptions = !willSubmitOverrideExceptions"
+    />
+    <span class="ml-1 mt-[3px]">Clear entries on lower hierarchy level</span>
+  </label>
+</ng-template>
+<ng-template #helpSavePopover>
+  <ul class="cursor-pointer ul-hide">
+    <li>
+      <button
+        (click)="commentAndSave()"
+        [disabled]="isSaveDisabled"
+        class="bg-primary-500 text-white px-4 w-full pt-1.5 pb-1 hover:bg-primary-900 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:!bg-primary-500"
+      >
+        Comment & Save
+      </button>
+    </li>
+    <li class="mt-5">
+      <label class="flex">
+        <input
+          type="checkbox"
+          [checked]="willSubmitOverrideExceptions"
+          (change)="
+            willSubmitOverrideExceptions = !willSubmitOverrideExceptions
+          "
+        />
+        <span class="ml-1 mt-[3px]"
+          >Clear entries on lower hierarchy level</span
+        >
+      </label>
+    </li>
+  </ul>
+</ng-template>

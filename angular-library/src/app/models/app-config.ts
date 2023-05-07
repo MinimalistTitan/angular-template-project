@@ -6,4 +6,4 @@ export interface AppConfig {
     environmentName: string;
 }
 
-export const APP_CONFIG = new InjectionToken('CDM App Config');
+export const CDM_APP_CONFIG = new InjectionToken('CDM App Config');

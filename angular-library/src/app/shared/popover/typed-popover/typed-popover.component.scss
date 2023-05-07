@@ -1,0 +1,18 @@
+:host {
+  mat-icon {
+    width: 15px;
+    height: 15px;
+    &.error {
+      fill: var(--warn-500);
+    }
+    &.warning {
+      fill: #8a6d3b;
+    }
+    &.info {
+      fill: var(--primary-500);
+    }
+    &.check {
+      color: rgb(132 204 22 / var(--tw-bg-opacity));
+    }
+  }
+}

@@ -1,0 +1,47 @@
+<div
+  class="cdm-accordion flex flex-row-reverse h-full w-full relative min-w-[900px]"
+>
+  <div
+    *ngFor="let item of dataSource; let i = index"
+    class="flex transition-cdm-width duration-1000"
+    [class.w-10]="!item.expanded"
+    [class.w-full]="item.expanded"
+    [attr.name]="item.name"
+  >
+    <button [disabled]="item.disabled">
+      <div
+      class="cdm-accordion-header w-10 h-full flex flex-row rotate-180 uppercase border-r border-solid border-gray-300 leading-10 bg-gray-100 hover:bg-white cursor-pointer text-sm"
+      [class.text-primary-500]="!item.disabled"
+      [class.text-gray-300]="item.disabled"
+      [class.text-red-500]="!item.valid && !item.disabled"
+      [class.bg-white]="item.expanded"
+      [class.cursor-pointer]="!item.expanded"
+      [class.cursor-default]="item.expanded"
+      [class.shadow-cdm-accordion]="item.expanded"
+      (click)="itemClicking($event, item)"
+      [class.cursor-not-allowed]="item.disabled"
+      [title]="item.displayName"
+    >
+      <mat-icon [class.invisible]="item.expanded" class="mx-auto my-3"
+        >add</mat-icon
+      >
+      {{ item.displayName }}
+    </div>
+    </button>
+    <div
+      class="cdm-accordition-content flex flex-col"
+      [class.w-0]="!item.expanded"
+      [class.w-full]="item.expanded"
+    >
+      <ng-container
+        *ngIf="!!composedTemplateRefs[item.name]"
+        [ngTemplateOutlet]="composedTemplateRefs[item.name]"
+        [ngTemplateOutletContext]="{
+          $implicit: item,
+          className: 'h-full'
+        }"
+      ></ng-container>
+    </div>
+  </div>
+</div>
+<ng-content></ng-content>

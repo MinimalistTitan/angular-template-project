@@ -1,0 +1,35 @@
+<div class="flex justify-center items-center w-full cursor-help !h-8">
+  <button
+    tabindex="-1"
+    mat-icon-button
+    class="!w-[30px] !h-[30px] !p-0 !leading-[30px]"
+  >
+    <mat-icon
+      *ngIf="useSvgIcon"
+      [svgIcon]="icon"
+      [class]="cssClass"
+      cdmPopover
+      [contentTemplate]="validationTemplate"
+      [title]="title"
+      [placement]="placement"
+      [disableInteractivity]="disableInteractivity"
+      [customizeClass]="cssClass"
+    ></mat-icon>
+    <mat-icon
+      *ngIf="!useSvgIcon"
+      class="!h-8 !w-8"
+      [class]="cssClass"
+      cdmPopover
+      [contentTemplate]="validationTemplate"
+      [title]="title"
+      [placement]="placement"
+      [disableInteractivity]="disableInteractivity"
+      [customizeClass]="cssClass"
+      >{{ icon }}</mat-icon
+    >
+  </button>
+</div>
+
+<ng-template #validationTemplate>
+  <div>{{ content }}</div>
+</ng-template>

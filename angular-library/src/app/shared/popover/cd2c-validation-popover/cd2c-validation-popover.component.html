@@ -1,0 +1,30 @@
+<ng-container *ngIf="isValid">
+  <div class="text-center cd2c-valid-validation">
+    <mat-icon svgIcon="circle"></mat-icon>
+  </div>
+</ng-container>
+<ng-container *ngIf="!isValid">
+  <div
+    class="text-center cd2c-invalid-validation"
+    cdmPopover
+    [contentTemplate]="validationTemplate"
+    [title]="title"
+    [placement]="placement"
+    [disableInteractivity]="false"
+    customizeClass="max-h-[200px]"
+  >
+    <mat-icon svgIcon="circle"></mat-icon>
+  </div>
+</ng-container>
+
+<ng-template #validationTemplate>
+  <div class="tooltip-legend">
+    <div *ngFor="let item of content">
+      <span class="font-bold">{{ getLabel(item) }}:</span>&nbsp;
+      <span class="pr-[5px] text-primary-500">{{
+        item.materialPath.pathString
+      }}</span>
+      <span class="text-primary-500">{{ getValue(item) }}</span>
+    </div>
+  </div>
+</ng-template>

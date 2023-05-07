@@ -1,0 +1,10 @@
+:host {
+  .current {
+    color: var(--primary-contrast-900);
+
+    .hierarchy-path-acronym {
+      color: var(--primary-contrast-900);
+      border: 1px solid var(--primary-contrast-900);
+    }
+  }
+}

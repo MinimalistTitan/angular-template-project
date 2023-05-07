@@ -1,0 +1,14 @@
+<div class="mb-[5px]">
+    <div>Would you like to delete the current selection? Please enter optional comment:</div>
+    <form [formGroup]="form">
+        <textarea rows="5" formControlName="comment"
+            class="min-w-[500px] mt-2.5 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 border border-gray-300"></textarea>
+    </form>
+
+</div>
+<mat-divider></mat-divider>
+<div class="flex justify-end mt-[5px] gap-x-0.5">
+    <button mat-flat-button color="warn" class="!rounded-none disabled:!cursor-not-allowed !text-white"
+        (click)="delete()">Delete</button>
+    <button mat-stroked-button class="!rounded-none" (click)="cancel()">Cancel</button>
+</div>

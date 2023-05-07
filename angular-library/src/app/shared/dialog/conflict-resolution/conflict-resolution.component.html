@@ -1,0 +1,114 @@
+<div class="flex flex-col h-full">
+    <div *ngIf="!isReadOnly">This dialog has been shown because your last save operation would cause capacity data
+        inconsistency. To precede that state, you need to solve conflicts for displayed node[s] first. Until that time,
+        save operation cannot continue.</div>
+    <div *ngIf="isReadOnly">This dialog has been shown because your last requested operation would cause capacity data
+        inconsistency. To precede that state, you need to solve conflicts manually for displayed node[s] first. Until
+        that time, requested operation cannot continue.
+        <span *ngIf="!isPreview"><br />You cannot use the data conflict resolver when deleting records - for explanation
+            please contact CDM Administrator.</span>
+    </div>
+    <div class="grow shrink basis-[0%] min-h-[400px] max-h-[400px] overflow-auto">
+        <form [formGroup]="searchForm">
+            <table mat-table [dataSource]="dataSource" class="w-full text-left text-gray-500 dark:text-gray-400">
+                <ng-container matColumnDef="productPath">
+                    <th mat-header-cell *matHeaderCellDef class="px-1.5 !text-xs">
+                        <div class="font-bold">Product path</div>
+                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs block w-full p-1"  
+                        (keyup)="applyFilter()" formControlName="productPath">
+                    </th>
+    
+                    <td mat-cell *matCellDef="let row" class="px-1.5 !text-xs font-bold">
+                        {{row.conflictNode.productPath.pathString}}
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+                <ng-container matColumnDef="materialPath">
+                    <th mat-header-cell *matHeaderCellDef class="!px-1.5">
+                        <div class="font-bold">MaterialPath path</div>
+                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs block w-full p-1"
+                        (keyup)="applyFilter()" formControlName="materialPath">
+                    </th>
+                    <td mat-cell *matCellDef="let row" class="px-1.5 !text-xs">
+                        {{row.conflictNode.materialPath.pathString}}
+                    </td>
+    
+                    <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+                <ng-container matColumnDef="productHierarchyOrigin">
+                    <th mat-header-cell *matHeaderCellDef class="!px-1.5">
+                        <div class="font-bold">Value by product hierarchy</div>
+                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs block w-full p-1"
+                        (keyup)="applyFilter()" formControlName="valueByProductHierarchy">
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="solveByHierarchyOrigin(row, 'productHierarchyOrigin', false)"
+                        [ngClass]="{'bg-[#d1f3bf]': row.solvedBy?.colName === 'productHierarchyOrigin'}">
+                        <div class="flex items-center justify-between px-1.5 text-xs cursor-pointer">
+                            <span>
+                                <div
+                                    [innerHtml]="row.productHierarchyOrigin.nodeContentString | commaSeparatedValuesToIndividualLines">
+                                </div>
+                            </span>
+                            <cdm-origin-popover title="Value origin" [content]="row.productHierarchyOrigin">
+                            </cdm-origin-popover>
+                        </div>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef class="!px-1.5 !text-xs">
+                        <span><a class="text-primary-500 cursor-pointer"
+                                (click)="solveByHierarchyOrigin(null, 'productHierarchyOrigin', false)">Select
+                                all</a></span>&nbsp;|&nbsp;<a class="text-primary-500 cursor-pointer"
+                            (click)="solveByHierarchyOrigin(null, 'productHierarchyOrigin', true)">Select unseleted</a>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="materialHierarchyOrigin">
+                    <th mat-header-cell *matHeaderCellDef class="!px-1.5">
+                        <div class="font-bold">Value by material hierarchy</div>
+                        <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs block w-full p-1"
+                        (keyup)="applyFilter()" formControlName="valueByMaterialHierarchy">
+                    </th>
+                    <td mat-cell *matCellDef="let row" (click)="solveByHierarchyOrigin(row, 'materialHierarchyOrigin', false)"
+                     [ngClass]="{'bg-[#d1f3bf]': row.solvedBy?.colName === 'materialHierarchyOrigin'}"
+                       >
+                        <div class="flex items-center justify-between px-1.5 text-xs cursor-pointer">
+                            <span>
+                                <div
+                                    [innerHtml]="row.materialHierarchyOrigin.nodeContentString | commaSeparatedValuesToIndividualLines">
+                                </div>
+                            </span>
+                            <cdm-origin-popover title="Value origin" [content]="row.materialHierarchyOrigin">
+                            </cdm-origin-popover>
+                        </div>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef class="!px-1.5 !text-xs">
+                        <span><a class="text-primary-500 cursor-pointer"
+                                (click)="solveByHierarchyOrigin(null, 'materialHierarchyOrigin', false)">Select
+                                all</a></span>&nbsp;|&nbsp;<a class="text-primary-500 cursor-pointer"
+                            (click)="solveByHierarchyOrigin(null, 'materialHierarchyOrigin', true)">Select unseleted</a>
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="hover:!bg-[#d5eaee]"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
+    
+            </table>
+        </form>
+      
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="flex justify-end mt-[5px] gap-x-0.5">
+    <cdm-typed-popover *ngIf="!areSolved() && !isReadOnly" class="mr-[10px]" type="Info" title="Conflicts not resolved"
+        content="To save capacity data, all displayed conflicts must be resolved"></cdm-typed-popover>
+    <button mat-stroked-button class="!rounded-none" (click)="exportToCsv()">Export to CSV</button>
+    <button *ngIf="!isReadOnly" type="button" [disabled]="!areSolved()" class="text-white 
+        cursor-pointer text-xs inline-flex items-center py-2 px-4 font-medium 
+        bg-primary-500 border-r-[1px] border-primary-800 
+        hover:bg-primary-900
+        disabled:cursor-not-allowed 
+        disabled:opacity-70
+        disabled:hover:!bg-primary-500" (click)="save()">
+        Save
+    </button>
+    <button mat-stroked-button class="!rounded-none !ml-[5px]" (click)="cancel()">Cancel</button>
+</div>

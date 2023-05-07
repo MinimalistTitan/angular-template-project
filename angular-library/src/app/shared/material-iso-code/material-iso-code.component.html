@@ -1,0 +1,131 @@
+<div
+  class="text-center bottom-0 h-full border-r border-solid border-neutral-800 bg-neutral-500"
+  [attr.disabled]="tmcLevel === tmcLevels.Tmc0"
+  [ngClass]="{
+    'w-[150px]': isSubLevel,
+    'w-[50px]': !isSubLevel
+  }"
+>
+  <div class="text-xs">{{ tmcLevel + "isSubLevel: " + isSubLevel }}</div>
+  <div class="border-solid h-[73px]">
+    <div *ngIf="!isSubLevel">
+      <button  [disabled]="!isTmcLevelChangeAllowed ||
+      capacityDataPage.isMultiselectDisabledOnAllLevels">
+        <div
+        class="label cursor-pointer block h-[23px] pl-0.5 text-sm text-center font-bold text-primary-A800 pt-1 relative"
+       
+        [class.!text-neutral-800]="!isTmcLevelChangeAllowed"
+        [class.!cursor-not-allowed]="!isTmcLevelChangeAllowed"
+      >
+        {{ materialLevelTitle }}
+        <cdm-tmc-level
+          *ngIf="tmcLevel !== tmcLevels.Tmc0 && isTmcLevelChangeAllowed"
+          class="tmc-level invisible absolute z-10 ml-2 top-0"
+          (selectedTmcLevelChange)="selectedTmcLevelChange($event)"
+          [selectedLevel]="tmcLevel"
+          [maxAllowedTmcLevel]="capacityDataPage.maxAllowedTmcLevel"
+        ></cdm-tmc-level>
+      </div>
+      </button>
+      
+      <div
+        *ngIf="!capacityDataPage.isMultiselectDisabledOnAllLevels"
+        class="help-icon h-[23px]"
+        cdmPopover
+        [contentTemplate]="helpPopover"
+        title="Hint"
+        placement="bottom"
+        [disableInteractivity]="false"
+      >
+        <div class="popover-icon h-full pt-[3px]">
+          <mat-icon
+            class="!fill-primary-400 !h-3.5"
+            svgIcon="info-circle"
+          ></mat-icon>
+        </div>
+      </div>
+      <button
+        *ngIf="
+          tmcLevel === tmcLevels.Tmc1 &&
+          !capacityDataPage.isMultiselectDisabledOnAllLevels
+        "
+        class="w-full border-b-0 border-l-0 border-r-0 h-[27px] border-t border-neutral-800 !p-0 hover:border-neutral-900 text-[13px]"
+        (click)="allMaterialSelecting()"
+      >
+        ALL
+      </button>
+    </div>
+    <div class="tmcx-header" *ngIf="isSubLevel">
+      <cdm-tmc-level
+        *ngIf="isTmcLevelChangeAllowed"
+        (selectedTmcLevelChange)="selectedTmcLevelChange($event)"
+        [selectedLevel]="tmcLevel"
+        [maxAllowedTmcLevel]="capacityDataPage.maxAllowedTmcLevel"
+      >
+      </cdm-tmc-level>
+      <div
+        class="tmc-level-info top-[21px] flex items-center justify-center w-full"
+        [style.height.px]="isTmcLevelChangeAllowed ? 52 : 73"
+        [class.cursor-not-allowed]="!isTmcLevelChangeAllowed"
+      >
+        <div
+          [class.!text-neutral-800]="!isTmcLevelChangeAllowed"
+          class="current-tmc-level text-lg font-bold text-primary-A800"
+        >
+          {{ materialLevelTitle }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="left-0 right-0 bottom-0 relative">
+    <div
+      class="top-0 left-0 bottom-0 w-12 stretch-vertically"
+      *ngIf="tmcLevel >= tmcLevels.Tmc1"
+    >
+      <button
+        (click)="rootMaterialSelecting($event, materialCode)"
+        class="btn-code bg-white hover:bg-gray-400 py-2 pl-[5px] border border-neutral-800 h-[46.7px] w-full border-b-0 border-l-0 border-r-0 p-1 hover:bg-neutral-700 hover:border-solid hover:border hover:border-neutral-900 hover:border-b-0"
+        [class.selected]="materialCode.isSelected"
+        [ngClass]="{ invalid: !materialCode.isValid }"
+        *ngFor="let materialCode of rootMaterials"
+      >
+        <span
+          class="material-box inline-block w-[20px] h-[20px] leading-[20px]"
+          [ngClass]="materialCode.code"
+          >{{ materialCode.code }}</span
+        >
+      </button>
+    </div>
+
+    <div
+      class="absolute top-0 left-[49px] bottom-0 w-[99px] !overflow-y-auto overflow-x-hidden cdm-scrollbar-thin border-l border-l-neutral-800 stretch-vertically"
+      *ngIf="tmcLevel > 1"
+    >
+      <button
+        *ngFor="let subMaterial of subMaterials; let first = first"
+        (click)="subMaterialSelecting(subMaterial)"
+        [class.border-t]="first"
+        [class.!bg-tertiary-100]="subMaterial.isSelected"
+        [class.text-red-500]="!subMaterial.isValid"
+        class="w-full !border-b border-l-0 border-r-0 p-1 text-xs bg-white text-left !border-neutral-800 hover:bg-neutral-700"
+      >
+        <span>{{ subMaterial.pathString }}</span>
+        <span
+          class="text-[8px] relative top-[-6px] right-[-5px] py-px px-[3px] text-primary-contrast-500 bg-tertiary-800"
+          *ngIf="subMaterial.isReferenceMaterial"
+          title="Reference material"
+          >R</span
+        >
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #helpPopover>
+  <div>
+    {{
+      tmcLevel !== tmcLevels.Tmc0
+        ? "You can select multiple materials with Ctrl+click."
+        : "Not dependent on material or applied on material hierarchy root"
+    }}
+  </div>
+</ng-template>

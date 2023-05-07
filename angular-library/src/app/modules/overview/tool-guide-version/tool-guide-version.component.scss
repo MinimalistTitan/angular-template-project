@@ -1,0 +1,49 @@
+:host {
+  .progress-bar {
+    &.progress-bar-0 {
+      background-color: #5bc0de;
+    }
+
+    &.progress-bar-1 {
+      background-color: #5cb85c;
+    }
+
+    &.progress-bar-2 {
+      background-color: #f0ad4e;
+    }
+
+    &.progress-bar-3 {
+      background-color: #595f72;
+    }
+
+    &.progress-bar-4 {
+      background-color: #575d90;
+    }
+
+    &.progress-bar-5 {
+      background-color: #1c77c3;
+    }
+
+    &.progress-bar-6 {
+      background-color: #553739;
+    }
+
+    &.progress-bar-7 {
+      background-color: #9be564;
+    }
+
+    &.progress-bar-today {
+      &::after {
+        content: "";
+        position: absolute;
+        top: -0.85em;
+        width: 0;
+        height: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid var(--tertiary-800);
+        clear: both;
+      }
+    }
+  }
+}

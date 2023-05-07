@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { AppConfig, CDM_APP_CONFIG } from 'src/app/models/app-config';
 import { SUB_NAVIGATION } from 'src/app/share/share.const';
 import { CdmModule } from 'src/app/share/shared.enum';
 import { HTMLHelper } from 'src/app/utilities/html.helper';
@@ -14,7 +15,7 @@ export class ShellComponent implements AfterViewInit {
   hideLeftMenuBar: boolean = false;
   subNavigationList: any = [];
   moduleActiveRoute!: ActivatedRoute;
-  constructor(private _el: ElementRef, private router: Router, public activatedRoute: ActivatedRoute) {
+  constructor(private _el: ElementRef, private router: Router, public activatedRoute: ActivatedRoute, @Inject(CDM_APP_CONFIG) private appConfig: AppConfig) {
     this.listenToRouter();
   }
 

@@ -1,0 +1,19 @@
+<div class="flex h-full w-full bg-gray-100">
+    <div class="w-col-left flex-none flex flex-col p-1 pb-0 overflow-hidden" [class.w-col-left-wide]="subModule === CdmSubModule.ProductData">
+        <div class="h-min">
+            <cdm-product-hierarchy-filter [productMaterialSelection]="productMaterialSelection"  
+            [productHierarchies]="productHierarchies" [filterParams]="hierarchyFilterParams"
+            (filterChange)="hierarchyFilterChanged($event)">
+            </cdm-product-hierarchy-filter>
+          </div>
+          <div class="h-full relative">
+            <cdm-tree-view 
+              [hierarchyTreeData]="treeViewData"
+              (treeNodeSelected)="treeNodeSelected($event)" 
+              [isStopPropagation]="accordionDirty$ | async"
+              (propagationStopped)="treeNodeSelectingStopped($event)"
+              (validationsTabChange)="validationsTabChange($event)">
+            </cdm-tree-view>
+          </div>
+    </div>
+</div>

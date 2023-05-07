@@ -1,0 +1,47 @@
+
+
+<div *ngIf="showHeader" class="flex w-full py-2 text-primary-500">
+    <div
+      *ngIf="!!label"
+      class="text-primary-500 px-2 min-w-[100px] flex-[0.2]"
+    ></div>
+    <div class="flex-1 flex justify-between px-2">
+      <div
+        *ngFor="let item of stepConfigs"
+        [matTooltip]="item.name"
+        [ngClass]="item.icon"
+        class="hover:cursor-help"
+      ></div>
+    </div>
+    <div
+      *ngIf="showRankingLabel"
+      class="text-gray-400 truncate px-2 min-w-[100px] flex-[0.5]"
+    ></div>
+  </div>
+  
+  <div class="flex w-full">
+    <div
+      *ngIf="!!label"
+      [matTooltip]="label"
+      class="text-primary-500 font-bold px-2 min-w-[100px] flex-[0.2] hover:cursor-help"
+    >
+      {{ label }}
+    </div>
+    <div class="flex-1 custom-slider w-full">
+      <ngx-slider
+        [class.pointer-state--invisible]="!pointerVisible"
+        [(ngModel)]="sliderValue"
+        [options]="options"
+        (userChangeEnd)="userChangeEnd($event)"
+      ></ngx-slider>
+    </div>
+    <div
+      *ngIf="showRankingLabel"
+      [title]="stepNames[sliderValue]"
+      class="text-gray-400 truncate px-2 min-w-[100px] flex-[0.5]"
+      [class.invisible]="!pointerVisible"
+    >
+      {{ stepNames[sliderValue] }}
+    </div>
+  </div>
+  

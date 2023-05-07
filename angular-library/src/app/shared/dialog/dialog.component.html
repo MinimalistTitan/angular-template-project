@@ -1,0 +1,14 @@
+<div class="p-2.5 bg-primary-500 text-white text-[18px] flex justify-between">
+  <h3>{{ config.title }}</h3>
+  <span class="text-[0.7em] inline-block float-right leading-[30px]">
+    {{ config.extraTitle ? "current version " + config.extraTitle : "" }}</span
+  >
+</div>
+<div
+  class="p-[15px] overflow-auto max-h-[750px]"
+  [ngClass]="config.customClassContainer"
+>
+  <ng-container
+    *ngComponentOutlet="config.component; injector: config.injector"
+  ></ng-container>
+</div>

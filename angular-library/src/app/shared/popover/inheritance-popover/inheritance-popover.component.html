@@ -1,0 +1,20 @@
+<div class="flex justify-center items-center w-full cursor-help !h-8">
+  <button
+    tabindex="-1"
+    mat-button
+    class="!w-[30px] !h-[30px] !p-0 !leading-[30px] !min-w-fit"
+    cdmPopover
+    [contentTemplate]="inheritanceTemplate"
+    [title]="title"
+    [placement]="placement"
+    [disableInteractivity]="true"
+  >
+    <i class="icon-inheritance inheritance-icon text-sm text-primary-500"></i>
+  </button>
+</div>
+
+<ng-template #inheritanceTemplate>
+  <div *ngIf="content">
+    <cdm-inheritance [content]="content"></cdm-inheritance>
+  </div>
+</ng-template>

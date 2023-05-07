@@ -1,0 +1,52 @@
+:host {
+    .overview {
+        .find-more-info{
+            .mat-icon{
+                height: 12px;
+                width: 12px;
+            }
+        }
+
+        .module-wrap {
+            .indexable-milling {
+                background-image: url(../../../assets/images/indexable-milling-module.png);
+            }
+            .solid-milling {
+                background-image: url(../../../assets/images/solid-milling-module.png);
+            }
+
+            .general-turning {
+                background-image: url(../../../assets/images/general-turning-module.png);
+            }
+
+            .parting-grooving {
+                background-image: url(../../../assets/images/parting-grooving-module.png);
+            }
+
+            .thread-turning {
+                background-image: url(../../../assets/images/thread-turning-module.png);
+            }
+
+            .indexable-drilling {
+                background-image: url(../../../assets/images/indexable-drilling-module.png);
+            }
+
+            .solid-drilling {
+                background-image: url(../../../assets/images/solid-drilling-module.png);
+            }
+
+            .tapping {
+                background-image: url(../../../assets/images/tapping-module.png);
+            }
+
+            .reaming {
+                background-image: url(../../../assets/images/reaming-module.png);
+            }
+            .boring {
+                background-image: url(../../../assets/images/boring-module.png);
+            }
+
+            
+        }
+    }
+}

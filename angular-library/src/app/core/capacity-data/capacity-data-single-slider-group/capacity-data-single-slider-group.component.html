@@ -1,0 +1,51 @@
+<div class="w-full justify-center" [formGroup]="formGroup">
+    <div class="grid grid-cols-12">
+      <div
+        [ngClass]="sliderColClasses"
+        class="px-[2px] text-sm mb-2 text-primary-500 flex justify-between"
+      >
+        <div
+          *ngFor="let item of sliderConfigs"
+          [matTooltip]="item.name"
+          [ngClass]="item.iconClassName"
+          class="hover:cursor-help"
+          [matTooltipDisabled]="!item.iconClassName"
+        ><p *ngIf="!item.iconClassName">{{item.title}}</p></div>
+      </div>
+  
+      <ng-container *ngFor="let item of formControls; let i = index">
+        <div class="col-start-1 col-span-2 p-0 flex justify-center items-center" *ngIf="shouldShowSliderNames">
+          <p class="text-sm font-bold truncate text-center m-0">
+            {{ item?.controls["materialPath"]?.value?.pathString }}
+          </p>
+        </div>
+        <div [ngClass]="sliderColClasses" class="my-2">
+          <cdm-slider-step [disabled]="
+                  item?.controls[descriptorControlName]?.value?.status ===
+                  capacityDataStatusEnum.ReadOnly
+                " [stepConfigs]="sliderStepConfigs" [sliderControl]="item?.controls[sliderControlName]"></cdm-slider-step>
+        </div>
+        <div class="my-2 px-2 flex items-baseline" *ngIf="shouldShowSliderValues"
+          [ngClass]="isPopoverExisting ? 'col-span-3' : 'col-span-4'">
+          <p class="text-gray-400 truncate m-0">
+            {{ stepNames[item?.controls[sliderControlName].value] }}
+          </p>
+        </div>
+        <div class="col-span-1 flex" *ngIf="isPopoverExisting">
+          <cdm-typed-popover class="custom-popover-button" type="Error" title="Validation"
+            [content]="'' | capacityData: 'error'"
+            *ngIf="shouldShowValidatePopover && (item?.controls[sliderControlName].errors?.required || customValidateResult?.[item.controls['materialPath']?.value?.pathString])">
+          </cdm-typed-popover>
+          <cdm-typed-popover class="custom-popover-button" type="Warning" title="Record is disabled"
+            [content]="item.get('descriptor').value | capacityData: 'readOnly'" *ngIf="shouldShowWarningReadOnlyPopover &&
+                  (item?.controls[descriptorControlName]?.value?.status ===
+                  capacityDataStatusEnum.ReadOnly)
+                "></cdm-typed-popover>
+          <cdm-inheritance-popover class="custom-popover-button" type="Error" title="Inherited value"
+            [content]="item?.controls[descriptorControlName]?.value"
+            *ngIf="shouldShowInheritancePopoverButtons && item?.controls[descriptorControlName]?.value?.isInherited"></cdm-inheritance-popover>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  

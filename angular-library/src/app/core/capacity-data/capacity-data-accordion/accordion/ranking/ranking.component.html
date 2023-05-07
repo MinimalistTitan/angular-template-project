@@ -1,0 +1,57 @@
+<cdm-capacity-data-base [form]="form" [defaultHierarchyLevel]="defaultHierarchyLevel"
+  [hierarchyType]="productPath?.hierarchyType" [isCurrentHierarchyLevelDefault]="isCurrentHierarchyLevelDefault"
+  [isModelValidForDelete]="isModelValidForDelete" [isModelValidForSave]="isModelValidForSave" [isDirty]="isDirty"
+  [savePermittedRoles]="savePermittedRoles">
+  <form class="flex justify-center items-center h-full" [formGroup]="form">
+    <div formArrayName="capacityData" class="w-1/2 pt-3" *ngIf="capacityData.controls.length > 0">
+      <div class="w-full justify-center">
+        <div class="flex flex-row items-center m-2">
+          <div class="basis-1/4">
+            <p class="text-sm font-bold truncate text-center m-0">
+              &nbsp;
+            </p>
+          </div>
+          <div class="basis-[70%]">
+            <div class="text-sm text-primary-500 flex flex-row items-center justify-between">
+              <div *ngFor="let item of rankingSliderConfigs" [matTooltip]="item.name" [ngClass]="item.iconClassName"
+                class="hover:cursor-help" [matTooltipDisabled]="!item.iconClassName">
+                <p *ngIf="!item.iconClassName">{{item.title}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="basis-2/4 w-[20%] flex items-center">
+            <p class="text-gray-400 truncate m-0">
+              &nbsp;
+            </p>
+           
+          </div>
+         
+        </div>
+        <ng-container *ngFor="let item of capacityData.controls; let i = index" [formGroupName]="i">
+          <div class="flex flex-row items-center m-2">
+            <div class="basis-1/4">
+              <p class="text-sm font-bold truncate text-center m-0">
+                {{ item.get("materialPath").value.pathString }}
+              </p>
+            </div>
+            <div class="basis-3/4 mr-2">
+              <cdm-slider-step [disabled]="item.get('descriptor').value.isReadOnly" [stepConfigs]="sliderStepConfigs"
+              [sliderControl]="item.get('rank')"></cdm-slider-step>
+            </div>
+            <div class="basis-2/4 flex items-center">
+              <p class="text-gray-400 truncate m-0">
+                {{ stepNames[item.get('rank').value] }}
+              </p>
+              <div>
+                <cdm-inheritance-popover class="custom-popover-button" type="Error" title="Inherited value"
+                  [content]="item.get('descriptor').value | capacityData: 'inheritance'"
+                  *ngIf="item.get('descriptor').value.isInherited"></cdm-inheritance-popover>
+              </div>
+            </div>
+           
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</cdm-capacity-data-base>

@@ -1,0 +1,73 @@
+<cdm-capacity-data-base
+  [form]="form"
+  [defaultHierarchyLevel]="defaultHierarchyLevel"
+  [hierarchyType]="productPath?.hierarchyType"
+  [isCurrentHierarchyLevelDefault]="isCurrentHierarchyLevelDefault"
+  [isModelValidForDelete]="isModelValidForDelete"
+  [isModelValidForSave]="isModelValidForSave"
+  [savePermittedRoles]="savePermittedRoles"
+>
+  <div class="flex justify-center items-center w-full h-full">
+    <form class="inline-block" [formGroup]="form">
+      <table
+        class="table-fixed border-spacing-2"
+        formArrayName="capacityData"
+        *ngIf="capacityData.controls.length > 0"
+      >
+        <thead>
+          <tr class="text-sm text-primary-500">
+            <th class="material-col"></th>
+            <th class="uppercase">{{headerColunmName}}</th>
+            <th class="icon-col">&nbsp;</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="let item of capacityData.controls; let i = index"
+            [formGroupName]="i"
+          >
+            <th class="px-[10px] text-sm">
+              {{ item.get("materialPath").value.tmc1 }}
+            </th>
+            <td>
+              <cdm-number-spinner
+                [stepSize]="numberBoxSettings.stepSize"
+                [maxValue]="numberBoxSettings.maxValue"
+                [minValue]="numberBoxSettings.minValue"
+                [significantDigits]="numberBoxSettings.digits"
+                formControlName="ckc"
+                controlName="ckc"
+              ></cdm-number-spinner>
+            </td>
+            <td>
+              <div class="flex ml-5">
+                <cdm-typed-popover
+                  class="mr-[10px]"
+                  type="Error"
+                  title="Validation"
+                  content="Capacity data is missing, incorrect or defined on lower hierarchy level"
+                  *ngIf="item.get('ckc').invalid"
+                ></cdm-typed-popover>
+                <cdm-typed-popover
+                  class="mr-[10px]"
+                  type="Warning"
+                  title="Record is disabled"
+                  [content]="item.get('descriptor').value | capacityData: 'readOnly'"
+                  *ngIf="item.get('descriptor').value.isReadOnly"
+                ></cdm-typed-popover>
+                <cdm-inheritance-popover
+                  class="mr-[10px]"
+                  type="Error"
+                  title="Inherited value"
+                  [content]="item.get('descriptor').value | capacityData: 'inheritance'"
+                  *ngIf="item.get('descriptor').value.isInherited"
+                ></cdm-inheritance-popover>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</cdm-capacity-data-base>

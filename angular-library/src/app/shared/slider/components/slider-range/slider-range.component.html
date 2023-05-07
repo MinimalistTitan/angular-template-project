@@ -1,0 +1,10 @@
+<div class="custom-range-slider">
+  <ngx-slider
+    [class.pointer-state--invisible]="!pointerVisible"
+    [(ngModel)]="sliderValue"
+    [options]="options"
+    (userChangeEnd)="userChangeEnd($event)"
+    [(highValue)]="maxValue"
+  >
+  </ngx-slider>
+</div>

@@ -1,1 +1,56 @@
-<p>Over view page here</p>
+<div class="overview h-full py-0 my-0  bg-tertiary-100 px-[80px] overflow-y-auto">
+    <div class="jumbotron center-block py-[20px] px-[40px] bg-white min-w-[300px] border-y-0 block mr-auto ml-auto">
+        <div class="container-fluid p-0">
+            <h1 class="leading-[0.65] mt-[10px] text-tertiary-800 text-[36px] md:text-[63px]">
+                Capacity Data Master<br /><small class="text-[45%] font-normal text-[#777777] leading-none">Maintain
+                    capacity data recommendations and start values</small>
+            </h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <div class="">
+                    <ul class="text-[16px] font-extralight my-5 mx-0 list-disc" style="padding-inline-start: 40px;">
+                        <li>Improve existing and enter new data more easily</li>
+                        <li>Get advanced guidance and many kinds of validations</li>
+                        <li>Achieve better insert labels and CoroPlus ToolGuide<sup>®</sup> recommendations</li>
+                    </ul>
+                </div>
+                <div class="m-0 find-more py-[1.3em] px-0 font-extralight">
+                    <p class="text-[19px] mb-0">
+                        <a class="text-tertiary-800 no-underline hover:underline"
+                            href="https://sandvik.sharepoint.com/teams/scpmrandd/pimt/Shared%20Documents/Forms/Sub%20Area.aspx?viewid=5d930d01%2D85e1%2D4f94%2D8908%2D7ecf5a71759d&useFiltersInViewXml=1&FilterField1=IT%5Fx0020%5Fapplication&FilterValue1=CDM&FilterType1=Choice&FilterOp1=In"
+                            target="_blank">
+                            Find more </a> about processes and documentation
+                    </p>
+                    <p class="find-more-info">
+                        <span class="find-more-info-hint font-normal">
+                            <mat-icon svgIcon="info-circle" class="text-[12px]"></mat-icon>
+                            CDM only stores username of person. For purpose of Capacity Data version
+                            tracking and auditing it stores the history of all changes in Coromant Capacity Data
+                            accompanied with name of the user responsible for the change.
+                        </span>
+                        
+                    </p>
+                </div>
+            </div>
+
+            <!-- [cdmBusy]="isBusy" implement later -->
+            <div class="relative">
+                <tool-guide-version class="component" [data]="data$ | async"></tool-guide-version>
+            </div>
+           
+        </div>
+    </div>
+
+    <div class="module-wrap flex flex-row flex-wrap justify-around items-start content-start mt-[40px] relative">
+        <div class="bg-transparent max-w-[400px] w-full m-0 text-center flex flex-col text-[22px]"
+            *ngFor="let navItem of appNavigations">
+            <div class="mb-[15px] h-[30px] bg-transparent text-center p-0 border-none">
+                <div class="font-medium">{{navItem.text}}</div>
+            </div>
+            <a *ngFor="let child of navItem.children" [routerLink]="child.link" [title]="child.title" class="bg-[91%_center] bg-no-repeat border border-solid border-[#fff] hover:border-[#6fb9e8] hover:no-underline hover:shadow-md
+            text-tertiary-800 no-underline bg-white w-full h-[100px] text-left py-[15px] px-[20px] mb-[15px]"
+                [class]="child.icon">{{child.text}}</a>
+
+        </div>
+
+    </div>
+</div>

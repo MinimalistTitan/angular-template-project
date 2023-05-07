@@ -1,0 +1,12 @@
+<div class="relative">
+    <mat-tab-group
+      [cdmBusy]="busy"
+      (selectedTabChange)="onTabChanged($event)"
+      class="area-help-content"
+    >
+      <mat-tab *ngFor="let tab of listTabs" [label]="tab">
+        <div [innerHTML]="mapContent[tab] | safeHtml"></div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  

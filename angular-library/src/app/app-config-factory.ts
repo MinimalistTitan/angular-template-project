@@ -1,3 +1,8 @@
+import { environment } from "src/environments/environment";
+import { AppConfig } from "./models/app-config";
+
+export const appConfigFactory= (): AppConfig => ({ ...window['APP_CONFIG'] || environment.appConfig } as AppConfig);
+
 export const APP_NAVIGATION = [
   {
     id: 'Milling',
@@ -5,7 +10,7 @@ export const APP_NAVIGATION = [
     text: 'Milling',
     textIntl: 'Milling',
     link: '',
-    queryParams: null,
+    queryParams: null as any,
     active: false,
     icon: '',
     title: '',
@@ -17,12 +22,12 @@ export const APP_NAVIGATION = [
         text: 'Indexable',
         textIntl: 'Indexable',
         link: 'milling/indexable/',
-        queryParams: null,
+        queryParams: null as any,
         active: false,
         icon: 'indexable-milling',
         title: 'Go to Indexable Milling',
         titleIntl: 'Go to Indexable Milling',
-        children: [],
+        children: [] as any,
       },
      
     ]

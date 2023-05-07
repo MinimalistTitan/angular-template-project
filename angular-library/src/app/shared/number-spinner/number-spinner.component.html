@@ -1,0 +1,39 @@
+<input type="hidden" [(ngModel)]="value" />
+<div class="table">
+  <input
+    #input
+    type="text"
+    cdmNumberSpinner
+    [value]="viewValue"
+    (input)="_onInput($event)"
+    (change)="_onChange($event)"
+    (blur)="input.value = viewValue; _onTouch()"
+    class="no-spin-default-button text-right h-[30px] form-control block w-full px-3 py-1.5 text-sm font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-gray-300 focus:outline-none disabled:bg-primary-contrast-900 disabled:cursor-not-allowed"
+    [disabled]="disabled"
+    (keydown)="inputKeydown($event)"
+  />
+  <div *ngIf="!hideStepButtons" class="table-cell align-middle w-5 pl-[5px]">
+    <button
+      tabindex="-1"
+      [disabled]="disabled"
+      class="leading-[0] block disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed h-3.5"
+      (click)="updateValueByStep(1)"
+    >
+      <mat-icon class="btn-caret !h-[18px]" svgIcon="caret-up"></mat-icon>
+    </button>
+    <button
+      tabindex="-1"
+      [disabled]="disabled"
+      class="leading-[0] block disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed h-[18px]"
+      (click)="updateValueByStep(-1)"
+    >
+      <mat-icon class="btn-caret !h-[18px]" svgIcon="caret-down"></mat-icon>
+    </button>
+  </div>
+  <div
+    [class.hidden]="!unit"
+    class="leading-[3] text-primary-500 pl-3 pr-2 min-w-[70px]"
+  >
+    {{ unit }}
+  </div>
+</div>

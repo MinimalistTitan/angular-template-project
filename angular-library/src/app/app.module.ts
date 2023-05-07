@@ -9,7 +9,9 @@ import { CoreModule } from "./core/core.module";
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from "./share/share.module";
 import { ProductAdministrationComponent } from './modules/product-administration/product-administration.component';
-//const appConfig = appConfigFactory();
+import { CDM_APP_CONFIG } from "./models/app-config";
+import { appConfigFactory } from "./app-config-factory";
+const appConfig = appConfigFactory();
 @NgModule({
   declarations: [AppComponent, AppMainComponent, ProductAdministrationComponent],
   imports: [
@@ -31,9 +33,9 @@ import { ProductAdministrationComponent } from './modules/product-administration
   bootstrap: [AppComponent,
      //MsalRedirectComponent
     ],
-  // providers: [
-  //   { provide: CDM_APP_CONFIG, useValue: appConfig },
-  // ]
+  providers: [
+    { provide: CDM_APP_CONFIG, useValue: appConfig },
+  ]
 })
 
 export class AppModule { }

@@ -1,0 +1,69 @@
+<div class="min-h-[77px]">
+  <div *ngIf="data">
+    <p
+      class="tool-guide-version-info text-primary-contrast-400 text-[16px] m-[30px_0_15px_0]"
+    >
+      Your capacity data changes entered
+      <strong
+        >today and until
+        {{
+          data.currentVersion.currentVersionDate | date : "yyyy-MM-dd"
+        }}</strong
+      >
+      will be used for release
+      <strong
+        >{{ data.currentVersion.message }} ({{
+          data.currentVersion.toolGuideReleaseDate | date : "yyyy-MM-dd"
+        }})</strong
+      >
+      <br />
+      <a
+        class="text-tertiary-800 no-underline hover:underline"
+        href="https://toolguide.test.sandvik.coromant.com/TouchTime/Coromant/DataLoadHistory"
+        target="_blank"
+      >
+        CDM Data Load History
+      </a>
+      on Tool Guide TEST environment
+    </p>
+    <div class="progress-info overflow-hidden m-0 h-[20px]">
+      <div
+        *ngFor="let version of data.versions"
+        class="progress-bar bg-transparent text-primary-contrast-400 text-center float-left"
+        [style.width.%]="version.relativeProgress"
+      >
+        <span
+          matTooltipClass="custom-tooltip"
+          matTooltip="Release date {{
+            version.toolGuideReleaseDate | date : 'yyyy-MM-dd'
+          }}"
+          matTooltipPosition="above"
+          class="cursor-help"
+          >{{ version.message }}</span
+        >
+      </div>
+    </div>
+    <div class="overflow-hidden mb-[20px]">
+      <div
+        *ngFor="let version of data.versions; let i = index"
+        class="progress-bar progress-bar-{{
+          i
+        }} text-white text-right pr-[5px] mb-0 float-left w-0 h-full leading-[20px]"
+        [style.width.%]="version.relativeProgress"
+      >
+        {{ version.currentVersionDate | date : "yyyy-MM-dd" }}
+      </div>
+    </div>
+    <div class="overflow-visible mb-[40px] h-0">
+      <div
+        class="progress-bar progress-bar-today text-right pr-[5px] mb-0 float-left h-full leading-[20px] relative top-[-8px] bg-transparent"
+        [style.width.%]="data.todayRelativeProgress"
+      >
+        <span
+          class="progress-bar-today-label relative left-[51px] text-tertiary-800"
+          >Today {{ data.today | date : "yyyy-MM-dd" }}</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

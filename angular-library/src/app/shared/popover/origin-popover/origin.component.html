@@ -1,0 +1,35 @@
+<div class="origin-popover">
+  <div class="mb-[5px]">This value is save at node:</div>
+  <div class="flex">
+    <div
+      class="hierarchy-path-acronym text-primary-500 text-[11px] text-center border border-solid border-primary-500 rounded-sm w-[47px] h-[18px] inline-bock mr-[4px] indent-0 relative"
+    >
+      Main
+    </div>
+    <div *ngIf="content.valueInheritedFrom.productPath.nodes">
+      <span
+        class="path-breadcrumb inline ml-0 font-bold after:content-['\00bb'] after:px-[5px] after:text-primary-contrast-300 after:text-sm after:leading-3 after:font-normal last-of-type:text-primary-500 last-of-type:after:content-['']"
+        *ngFor="let node of content.valueInheritedFrom.productPath.nodes"
+        >{{ node }}</span
+      >
+    </div>
+  </div>
+  <div class="flex">
+    <div class="mt-[5px]">
+      <div class="flex gap-x-1">
+        <div
+          class="hierarchy-path-acronym hierarchy-path-acronym text-primary-500 text-[11px] text-center border border-solid border-primary-500 rounded-sm w-[47px] h-[18px] inline-bock mr-[4px] indent-0 relative"
+        >
+          Material
+        </div>
+
+        <div>
+          <span
+            class="path-breadcrumb inline ml-0 font-bold last-of-type:text-primary-500"
+            >{{ content.valueInheritedFrom.materialPath.pathString }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
